@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         mTextAddress.setOnClickListener(view -> {mAddress.requestFocus(); gblShowKeyboard(this);});
         mTextDetails.setOnClickListener(view -> {mDetails.requestFocus(); gblShowKeyboard(this);});
         mSubmit.setOnClickListener(view -> submitActivity());
-        mLogin.setOnClickListener(view -> loginActivity());
+        mLogin.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
     }
 
     @Override
@@ -106,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             return null;
         }
-    }
-
-    private void loginActivity(){
-        gblToast(this, "Login activity");
     }
 
 }

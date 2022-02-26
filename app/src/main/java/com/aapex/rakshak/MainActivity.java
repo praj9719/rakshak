@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mSubmit = findViewById(R.id.am_button_submit);
         mLogin = findViewById(R.id.am_button_login);
 
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference("Requests");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference(Global.fbRequestsRef);
 
         mTextAddress.setOnClickListener(view -> {mAddress.requestFocus(); gblShowKeyboard(this);});
         mTextDetails.setOnClickListener(view -> {mDetails.requestFocus(); gblShowKeyboard(this);});

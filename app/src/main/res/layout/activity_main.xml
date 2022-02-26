@@ -14,7 +14,7 @@
             android:layout_height="match_parent">
             <LinearLayout
                 android:paddingVertical="4dp"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:background="@color/design_default_color_primary"
                 android:layout_height="wrap_content">

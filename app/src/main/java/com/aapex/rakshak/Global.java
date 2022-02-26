@@ -12,6 +12,7 @@ import java.util.List;
 public class Global {
 
     public static int gblNum = 11810477;
+    public static String fbRequestsRef = "Requests";
 
     public static void gblToast(Context context, String str){
         Toast.makeText(context, str, Toast.LENGTH_SHORT).show();

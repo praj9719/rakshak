@@ -6,6 +6,8 @@ public class Request {
     private long time;
     private double latitude, longitude;
 
+    public Request(){}
+
     public Request(String name, String email, String identityNum, String address, String details, int phone, int postcode, long time, double latitude, double longitude) {
         this.name = name;
         this.email = email;

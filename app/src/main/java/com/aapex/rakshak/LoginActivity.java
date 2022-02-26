@@ -3,11 +3,13 @@ package com.aapex.rakshak;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.aapex.rakshak.feed.FeedActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import static com.aapex.rakshak.Global.gblToast;
@@ -27,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(view -> {
             String email = mEmail.getText().toString().trim();
             String password = mPassword.getText().toString().trim();
-            loginActivity(email, password);
+//            loginActivity(email, password);
+            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
         });
     }
 
@@ -35,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         if (email.isEmpty() || password.isEmpty()) {gblToast(this, "Fill all details"); return;}
         ProgressDialog mProgressDialog = ProgressDialog.show(LoginActivity.this, "", "Please wait...", true);
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(authResult -> {gblToast(this, "Login success!");})
+                .addOnSuccessListener(authResult -> startActivity(new Intent(LoginActivity.this, FeedActivity.class)))
                 .addOnFailureListener(e -> gblToast(this, e.getMessage()))
                 .addOnCompleteListener(task -> mProgressDialog.dismiss());
     }

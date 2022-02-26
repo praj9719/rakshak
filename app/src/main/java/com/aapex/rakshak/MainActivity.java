@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             double latitude = 0.0, longitude = 0.0;
             return new Request(name, email, identityNum, address, details, phone, postcode, time, latitude, longitude);
         }catch (Exception e){
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            gblToast(this, "Failed!\n"+e.getMessage());
             return null;
         }
     }

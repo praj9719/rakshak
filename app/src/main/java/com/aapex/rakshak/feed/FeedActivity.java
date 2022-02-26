@@ -2,6 +2,8 @@ package com.aapex.rakshak.feed;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +17,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeedActivity extends AppCompatActivity {
 
     private static final String TAG = "FeedActivity";
+    private RecyclerView mRecycler;
+    private List<Request> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+        mRecycler = findViewById(R.id.af_recycler);
+        mRecycler.setHasFixedSize(true);
+        mRecycler.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+        mList = new ArrayList<>();
         loadFeed();
     }
 
@@ -32,14 +43,18 @@ public class FeedActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists()) return;
+                mList.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
                     try {
                         Request req = data.getValue(Request.class);
-                        Log.d(TAG, "onDataChange: " + req.getName() + " " + req.getPhone());
+                        mList.add(req);
                     }catch (Exception e){
                         Log.d(TAG, "onDataChange: Error: " + e.getMessage());
                     }
                 }
+                Log.d(TAG, "onDataChange: size: " + mList.size());
+                FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, mList);
+                mRecycler.setAdapter(feedAdapter);
             }
 
             @Override

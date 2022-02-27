@@ -127,7 +127,6 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginHorizontal="15dp"
                     android:hint="Postcode"
-                    android:inputType="number"
                     android:background="@null"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

@@ -10,7 +10,8 @@
     </array>
 
     <array name="sort_by">
-        <item>Date</item>
+        <item>Date Asc</item>
+        <item>Date Des</item>
         <item>Location</item>
     </array>
 

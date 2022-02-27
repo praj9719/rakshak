@@ -74,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        askForLocationAccessIfNotGranted(new MyTaskListener() {
+            @Override
+            public void onTaskSuccess() {
+
+            }
+
+            @Override
+            public void onTaskFailed(String error) {
+
+            }
+        });
     }
 
     private void submitActivity(){

@@ -2,12 +2,15 @@ package com.aapex.rakshak.feed;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,6 +74,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         identity.setText(req.getIdentityNum());
         postcode.setText(req.getPostcode());
         address.setText(req.getAddress());
+
+        Button direction = customView.findViewById(R.id.pop_btn_direction);
+        direction.setOnClickListener(view -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Global.getMapsUrl(req.getLatitude(), req.getLongitude())));
+            context.startActivity(browserIntent);
+        });
 
         builder.setView(customView);
         builder.create();

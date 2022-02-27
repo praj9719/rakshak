@@ -108,5 +108,11 @@
             android:layout_marginBottom="5dp"
             android:layout_marginHorizontal="20dp"
             android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/pop_btn_direction"
+            android:text="Direction"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </RelativeLayout>

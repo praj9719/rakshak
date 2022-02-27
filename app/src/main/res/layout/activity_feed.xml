@@ -5,6 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".feed.FeedActivity">
+    <TextView
+        android:id="@+id/af_empty"
+        android:layout_centerInParent="true"
+        android:text="Empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/af_layout_filter"
+        android:elevation="5dp"
+        android:background="@drawable/transparent_dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            app:cardCornerRadius="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="16dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:paddingHorizontal="6dp"
+                        android:drawableLeft="@drawable/ic_arrow"
+                        android:layout_marginVertical="5dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="start"
+                        android:text="Sort By"
+                        android:paddingVertical="8dp" />
+                    <Spinner
+                        android:id="@+id/af_spinner_sort_by"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:entries="@array/sort_by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="RtlCompat" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:background="@color/light_gray"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:paddingHorizontal="6dp"
+                        android:drawableLeft="@drawable/ic_arrow"
+                        android:layout_marginVertical="5dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="start"
+                        android:text="Disaster"
+                        android:paddingVertical="8dp"/>
+                    <Spinner
+                        android:id="@+id/af_spinner_disaster_type"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:entries="@array/disaster_type_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="RtlCompat" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:background="@color/light_gray"/>
+                <Button
+                    android:id="@+id/af_button_filter"
+                    android:text="Filter"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,6 +102,47 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:paddingHorizontal="12dp"
+                    android:text="Disaster Management"
+                    android:gravity="center_vertical"
+                    android:textSize="20dp"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_margin="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/af_show_filter"
+                        android:textColor="@color/design_default_color_primary"
+                        android:text="Filter"
+                        android:textSize="18dp"
+                        android:padding="8dp"
+                        android:drawableTint="@color/design_default_color_primary"
+                        android:drawablePadding="8dp"
+                        android:drawableLeft="@drawable/ic_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:background="@color/light_gray"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="32dp"
+                android:background="@color/light_gray"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/af_recycler"
                 android:layout_width="match_parent"

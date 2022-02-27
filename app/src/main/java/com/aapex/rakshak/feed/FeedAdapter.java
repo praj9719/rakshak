@@ -1,5 +1,6 @@
 package com.aapex.rakshak.feed;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aapex.rakshak.Global;
@@ -22,10 +25,10 @@ import java.util.Locale;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder> {
 
     private static final String TAG = "FeedAdapter";
-    private Context context;
+    private Activity context;
     private List<Request> mList;
 
-    public FeedAdapter(Context context, List<Request> mList) {
+    public FeedAdapter(Activity context, List<Request> mList) {
         this.context = context;
         this.mList = mList;
     }
@@ -46,8 +49,33 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         String address = mAdd==null ? "-" : (mAdd.getLocality()+", "+mAdd.getAdminArea()+", "+mAdd.getCountryName()+". "+mAdd.getPostalCode());
         holder.mAddress.setText(address);
         holder.mDetails.setText(req.getDetails());
+
+        holder.mCard.setOnClickListener(view -> showDetails(req));
     }
 
+    private void showDetails(Request req) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LayoutInflater layoutInflater = context.getLayoutInflater();
+        View customView = layoutInflater.inflate(R.layout.popup_request, null);
+        TextView name, phone, email, identity, postcode, address;
+        name = customView.findViewById(R.id.pop_name);
+        phone = customView.findViewById(R.id.pop_phone);
+        email = customView.findViewById(R.id.pop_email);
+        identity = customView.findViewById(R.id.pop_identity);
+        postcode = customView.findViewById(R.id.pop_postcode);
+        address = customView.findViewById(R.id.pop_address);
+
+        name.setText(req.getName());
+        phone.setText(req.getPhone());
+        email.setText(req.getEmail());
+        identity.setText(req.getIdentityNum());
+        postcode.setText(req.getPostcode());
+        address.setText(req.getAddress());
+
+        builder.setView(customView);
+        builder.create();
+        builder.show();
+    }
 
 
     @Override
@@ -57,12 +85,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     public class FeedViewHolder extends RecyclerView.ViewHolder {
         private TextView mCategory, mDate, mAddress, mDetails;
+        private CardView mCard;
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
             mCategory = itemView.findViewById(R.id.lf_category);
             mDate = itemView.findViewById(R.id.lf_date);
             mAddress = itemView.findViewById(R.id.lf_address);
             mDetails = itemView.findViewById(R.id.lf_details);
+            mCard = itemView.findViewById(R.id.lf_card);
         }
     }
 }

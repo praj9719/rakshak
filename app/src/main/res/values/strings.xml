@@ -8,5 +8,21 @@
         <item>Volcanic Activity</item>
         <item>Other</item>
     </array>
+
+    <array name="sort_by">
+        <item>Date</item>
+        <item>Location</item>
+    </array>
+
+    <array name="disaster_type_2">
+        <item>All</item>
+        <item>Earthquake</item>
+        <item>Flood</item>
+        <item>Landslide</item>
+        <item>Wildfire</item>
+        <item>Volcanic Activity</item>
+        <item>Other</item>
+    </array>
+
     <string name="app_name">SAVIOR</string>
 </resources>

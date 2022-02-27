@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         mLogin.setOnClickListener(view -> {
             String email = mEmail.getText().toString().trim();
             String password = mPassword.getText().toString().trim();
-//            loginActivity(email, password);
-            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+            loginActivity(email, password);
+//            startActivity(new Intent(LoginActivity.this, FeedActivity.class));
         });
     }
 
@@ -38,7 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         if (email.isEmpty() || password.isEmpty()) {gblToast(this, "Fill all details"); return;}
         ProgressDialog mProgressDialog = ProgressDialog.show(LoginActivity.this, "", "Please wait...", true);
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(authResult -> startActivity(new Intent(LoginActivity.this, FeedActivity.class)))
+                .addOnSuccessListener(authResult -> {
+                    startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+                    finish();
+                })
                 .addOnFailureListener(e -> gblToast(this, e.getMessage()))
                 .addOnCompleteListener(task -> mProgressDialog.dismiss());
     }

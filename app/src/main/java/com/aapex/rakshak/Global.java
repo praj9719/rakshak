@@ -15,6 +15,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,6 +64,17 @@ public class Global {
             Log.d(TAG, "getAddress: " + e.getMessage());
             return null;
         }
+    }
+
+    public static String getDate(long time) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
+            return simpleDateFormat.format(new Date(time));
+        }catch (Exception e){
+            Log.d(TAG, "getDate: " + e.getMessage());
+            return "-";
+        }
+
     }
 
 }

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
+import static com.aapex.rakshak.Global.fbRequestsRef;
 import static com.aapex.rakshak.Global.gblClearInputText;
 import static com.aapex.rakshak.Global.gblGetInputText;
 import static com.aapex.rakshak.Global.gblHideKeyboard;
@@ -35,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
     public static String TAG = "MainActivity";
 
     private EditText mName, mPhone, mEmail, mIdentityNum, mPostCode, mAddress, mDetails;
-    private TextView mTextAddress, mTextDetails;
+    private TextView mTextAddress, mTextDetails, mTextType;
     private Button mSubmit, mLogin;
+    private Spinner mSpinner;
 
     private DatabaseReference mDatabaseReference;
     private MyTaskListener myLocationTaskListener;
@@ -56,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
         mTextDetails = findViewById(R.id.am_text_details);
         mSubmit = findViewById(R.id.am_button_submit);
         mLogin = findViewById(R.id.am_button_login);
+        mTextType = findViewById(R.id.am_text_type);
+        mSpinner = findViewById(R.id.am_spinner_type);
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference(Global.fbRequestsRef);
 
         mTextAddress.setOnClickListener(view -> {mAddress.requestFocus(); gblShowKeyboard(this);});
         mTextDetails.setOnClickListener(view -> {mDetails.requestFocus(); gblShowKeyboard(this);});
+        mTextType.setOnClickListener(view -> mSpinner.performClick());
         mSubmit.setOnClickListener(view -> submitActivity());
         mLogin.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
     }
@@ -116,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             String identityNum = gblGetInputText(mIdentityNum);
             String postcode = gblGetInputText(mPostCode);
             String address = gblGetInputText(mAddress);
-            String category = "Disaster";
+            String category = mSpinner.getSelectedItem().toString();
             String details = gblGetInputText(mDetails);
             long time = System.currentTimeMillis();
             return new Request(name, phone, email, identityNum, postcode, address, category, details, time, latitude, longitude);

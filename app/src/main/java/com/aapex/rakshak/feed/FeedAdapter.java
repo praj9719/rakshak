@@ -40,8 +40,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     @Override
     public void onBindViewHolder(@NonNull FeedAdapter.FeedViewHolder holder, int position) {
         Request req = mList.get(position);
+        holder.mCategory.setText(req.getCategory());
+        holder.mDate.setText(Global.getDate(req.getTime()));
         Address mAdd = Global.getAddress(context, req.getLatitude(), req.getLongitude());
-        String address = mAdd==null ? "-" : (mAdd.getLocality()+", "+mAdd.getAdminArea()+", "+mAdd.getCountryName());
+        String address = mAdd==null ? "-" : (mAdd.getLocality()+", "+mAdd.getAdminArea()+", "+mAdd.getCountryName()+". "+mAdd.getPostalCode());
+        holder.mAddress.setText(address);
+        holder.mDetails.setText(req.getDetails());
     }
 
 

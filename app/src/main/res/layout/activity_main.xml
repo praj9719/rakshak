@@ -152,11 +152,43 @@
                     android:id="@+id/am_edit_address"
                     android:layout_width="match_parent"
                     android:background="@null"
-                    android:minHeight="60dp"
+                    android:minHeight="80dp"
                     android:gravity="top"
                     android:layout_marginBottom="5dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_height="wrap_content"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="32dp"
+                    android:background="@color/light_gray"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/am_text_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="14dp"
+                        android:paddingHorizontal="6dp"
+                        android:drawableLeft="@drawable/ic_list"
+                        android:layout_marginVertical="5dp"
+                        android:drawablePadding="10dp"
+                        android:gravity="start"
+                        android:hint="Disaster"
+                        android:paddingVertical="8dp"
+                        android:textSize="18dp" />
+                    <Spinner
+                        android:id="@+id/am_spinner_type"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:entries="@array/disaster_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:ignore="RtlCompat" />
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -179,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:background="@null"
                     android:gravity="top"
-                    android:minHeight="120dp"
+                    android:minHeight="160dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginHorizontal="20dp"
                     android:layout_height="wrap_content"/>

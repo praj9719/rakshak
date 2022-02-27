@@ -3,6 +3,9 @@ package com.aapex.rakshak;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -11,10 +14,13 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class Global {
 
+    private static final String TAG = "GlobalTag";
     public static int gblNum = 11810477;
     public static String fbRequestsRef = "Requests";
     public static final int MY_REQUEST_CODE_LOCATION = 1181;
@@ -45,6 +51,16 @@ public class Global {
 
     public static String getMapsUrl(double latitude, double longitude){
         return  "http://maps.google.com/maps?q=" + latitude + "," + longitude;
+    }
+
+    public static Address getAddress(Context context, double latitude, double longitude) {
+        try {
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            return geocoder.getFromLocation(latitude, longitude, 1).get(0);
+        } catch (Exception e) {
+            Log.d(TAG, "getAddress: " + e.getMessage());
+            return null;
+        }
     }
 
 }

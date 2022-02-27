@@ -26,6 +26,9 @@
                     android:paddingLeft="12dp"
                     android:textSize="20dp"
                     android:text="SAVIOUR"
+                    android:drawableLeft="@drawable/ic_shield"
+                    android:drawableTint="@color/white"
+                    android:drawablePadding="6dp"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"/>

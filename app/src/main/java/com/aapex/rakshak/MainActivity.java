@@ -1,27 +1,26 @@
 package com.aapex.rakshak;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.aapex.rakshak.object.GpsTracker;
 import com.aapex.rakshak.object.Request;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.aapex.rakshak.Global.gblClearInputText;
@@ -29,6 +28,7 @@ import static com.aapex.rakshak.Global.gblGetInputText;
 import static com.aapex.rakshak.Global.gblHideKeyboard;
 import static com.aapex.rakshak.Global.gblShowKeyboard;
 import static com.aapex.rakshak.Global.gblToast;
+import static com.aapex.rakshak.Global.getMapsUrl;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mSubmit, mLogin;
 
     private DatabaseReference mDatabaseReference;
+    private MyTaskListener myLocationTaskListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        new Handler(Looper.getMainLooper()).postDelayed(() ->
-//                startActivity(new Intent(MainActivity.this, TestActivity.class)), 1000);
     }
 
     private void submitActivity(){
+        askForLocationAccessIfNotGranted(new MyTaskListener() {
+            @Override
+            public void onTaskSuccess() {
+                GpsTracker gpsTracker = new GpsTracker(MainActivity.this);
+                double latitude = 0.0, longitude = 0.0;
+                if (gpsTracker.canGetLocation()) {
+                    latitude = gpsTracker.getLatitude();
+                    longitude = gpsTracker.getLongitude();
+                }else gpsTracker.showSettingsAlert();
+                Log.d(TAG, "onTaskSuccess: " + getMapsUrl(latitude, longitude));
+                submitActivity(latitude, longitude);
+            }
+
+            @Override
+            public void onTaskFailed(String error) {
+                gblToast(MainActivity.this, error);
+            }
+        });
+    }
+
+    private void submitActivity(double latitude, double longitude){
         gblHideKeyboard(this);
-        Request req = getUserInput();
+        Request req = getRequest(latitude, longitude);
         gblClearInputText(Arrays.asList(mName, mEmail, mIdentityNum, mAddress, mDetails, mPhone, mPostCode));
         if (req==null) return;
         ProgressDialog mProgressDialog = ProgressDialog.show(MainActivity.this, "", "Please wait...", true);
@@ -88,24 +108,46 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> mProgressDialog.dismiss());
     }
 
-    private Request getUserInput(){
+    private Request getRequest(double latitude, double longitude){
         try {
             String name = gblGetInputText(mName);
+            String phone = gblGetInputText(mPhone);
             String email = gblGetInputText(mEmail);
             String identityNum = gblGetInputText(mIdentityNum);
+            String postcode = gblGetInputText(mPostCode);
             String address = gblGetInputText(mAddress);
+            String category = "Disaster";
             String details = gblGetInputText(mDetails);
-            String tmp = gblGetInputText(mPhone);
-            int phone = tmp.isEmpty() ? -1 : Integer.parseInt(tmp);
-            tmp = gblGetInputText(mPostCode);
-            int postcode = tmp.isEmpty() ? -1 : Integer.parseInt(tmp);
             long time = System.currentTimeMillis();
-            double latitude = 0.0, longitude = 0.0;
-            return new Request(name, email, identityNum, address, details, phone, postcode, time, latitude, longitude);
+            return new Request(name, phone, email, identityNum, postcode, address, category, details, time, latitude, longitude);
         }catch (Exception e){
             gblToast(this, "Failed!\n"+e.getMessage());
             return null;
         }
     }
 
+    private void askForLocationAccessIfNotGranted(MyTaskListener myTaskListener) {
+        myLocationTaskListener = myTaskListener;
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, Global.MY_REQUEST_CODE_LOCATION);
+            }else myLocationTaskListener.onTaskSuccess();
+        } catch (Exception e){
+            myLocationTaskListener.onTaskFailed(e.getMessage());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Global.MY_REQUEST_CODE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    myLocationTaskListener.onTaskSuccess();
+                } else myLocationTaskListener.onTaskFailed("Permission not granted!");
+                break;
+            default:
+                Log.d(TAG, "onActivityResult: Invalid request code " + requestCode);
+        }
+    }
 }
